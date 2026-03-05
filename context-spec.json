@@ -1,0 +1,167 @@
+{
+  "context_specification": {
+    "project": {
+      "id": "sentinel-ai-engine",
+      "name": "Sentinel AI Engine",
+      "version": "1.0.0",
+      "description": "Machine Learning Operations and Computer Vision meta-repository",
+      "domain": "Machine Learning Operations & Computer Vision",
+      "organization": "Dulux Tech",
+      "methodology": "MLOps + Data-Centric AI"
+    },
+    "domain_context": {
+      "bounded_context": "AI/ML Operations",
+      "core_responsibilities": [
+        "Biometric authentication systems",
+        "Predictive analytics models",
+        "Anomaly detection",
+        "ML pipeline orchestration",
+        "Model serving and monitoring"
+      ],
+      "upstream_dependencies": [
+        "nebula-cloud-platform"
+      ],
+      "downstream_consumers": [
+        "aurora-fullstack-saas"
+      ]
+    },
+    "use_cases": [
+      {
+        "id": "biometric-auth",
+        "name": "Biometric Authentication",
+        "description": "Facial recognition system for secure register entry",
+        "models": ["InsightFace", "YOLOv8"],
+        "accuracy_target": 0.99
+      },
+      {
+        "id": "agricultural-prediction",
+        "name": "Agricultural Yield Prediction",
+        "description": "Smart prediction system for agricultural yields",
+        "models": ["XGBoost", "LightGBM", "Random Forest"],
+        "accuracy_target": 0.85
+      },
+      {
+        "id": "anomaly-detection",
+        "name": "Real-time Anomaly Detection",
+        "description": "Streaming anomaly detection for operational data",
+        "models": ["Isolation Forest", "Autoencoder"],
+        "latency_target": "<100ms"
+      }
+    ],
+    "key_components": [
+      {
+        "id": "biometric-authentication",
+        "description": "Facial recognition and biometric authentication system",
+        "responsibilities": [
+          "Face detection and alignment",
+          "Feature extraction",
+          "Liveness detection",
+          "Identity matching"
+        ]
+      },
+      {
+        "id": "agricultural-prediction",
+        "description": "Agricultural yield prediction pipelines",
+        "responsibilities": [
+          "Data preprocessing",
+          "Feature engineering",
+          "Model training",
+          "Prediction serving"
+        ]
+      },
+      {
+        "id": "ml-pipelines",
+        "description": "MLOps pipeline orchestration",
+        "responsibilities": [
+          "Data ingestion",
+          "Feature engineering",
+          "Model training",
+          "Model evaluation",
+          "Model registration"
+        ]
+      },
+      {
+        "id": "model-serving",
+        "description": "Model inference infrastructure",
+        "responsibilities": [
+          "Real-time inference API",
+          "Batch inference jobs",
+          "A/B testing",
+          "Model versioning"
+        ]
+      },
+      {
+        "id": "monitoring",
+        "description": "ML model monitoring and observability",
+        "responsibilities": [
+          "Performance tracking",
+          "Drift detection",
+          "Data quality monitoring",
+          "Alerting"
+        ]
+      }
+    ],
+    "technology_stack": {
+      "computer_vision": ["YOLOv8", "InsightFace", "OpenCV", "MediaPipe"],
+      "ml_frameworks": ["PyTorch", "TensorFlow", "scikit-learn", "XGBoost"],
+      "mlops": ["MLflow", "Kubeflow", "Azure ML", "Feast", "DVC"],
+      "serving": ["Triton Inference Server", "FastAPI", "Azure Container Instances"],
+      "infrastructure": ["AKS with GPU nodes", "Karpenter"],
+      "feature_store": ["Feast", "Azure ML Feature Store"]
+    },
+    "architecture_principles": [
+      "Data-Centric AI: Focus on data quality over model complexity",
+      "MLOps Best Practices: Versioning, reproducibility, automation",
+      "Model Governance: Tracking, approval, rollback capabilities",
+      "Real-time + Batch: Support both inference modes",
+      "Cost-Effective Training: Spot instances, distributed training",
+      "Responsible AI: Bias detection, explainability"
+    ],
+    "development_phases": {
+      "phase_1": {
+        "name": "Foundation",
+        "duration": "2 weeks",
+        "deliverables": [
+          "ML pipeline infrastructure",
+          "Feature store setup",
+          "MLflow tracking server",
+          "Basic model training"
+        ]
+      },
+      "phase_2": {
+        "name": "Core Models",
+        "duration": "4 weeks",
+        "deliverables": [
+          "Biometric authentication model",
+          "Agricultural prediction model",
+          "Model serving infrastructure",
+          "API endpoints"
+        ]
+      },
+      "phase_3": {
+        "name": "Production Ready",
+        "duration": "3 weeks",
+        "deliverables": [
+          "A/B testing framework",
+          "Drift detection",
+          "Monitoring dashboards",
+          "Automated retraining"
+        ]
+      }
+    },
+    "quality_requirements": {
+      "test_coverage": 90,
+      "model_validation": "required",
+      "data_quality_checks": "mandatory",
+      "model_documentation": "required",
+      "bias_audit": "quarterly"
+    },
+    "success_criteria": {
+      "mlops_maturity": "Level 3+",
+      "model_accuracy": "≥target per use case",
+      "inference_latency": "<100ms P99",
+      "uptime": 99.9,
+      "data_quality": "≥95%"
+    }
+  }
+}

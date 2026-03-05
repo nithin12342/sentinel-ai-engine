@@ -1,0 +1,243 @@
+{
+  "harness": {
+    "project": "sentinel-ai-engine",
+    "version": "1.0.0",
+    "description": "Harness configuration for Sentinel AI Engine - MLOps and Computer Vision",
+    "created_date": "2026-03-05"
+  },
+  "ml_platform_harness": {
+    "ml_platform": "Azure ML",
+    "gpu_infrastructure": "AKS with NVIDIA A10G",
+    "model_serving": "Azure Container Instances + Triton",
+    "feature_store": "Feast",
+    "experiment_tracking": "MLflow",
+    "pipeline_orchestration": "Azure ML Pipelines"
+  },
+  "model_registry": {
+    "registry": "Azure ML Model Registry",
+    "stages": ["Staging", "Production", "Archived"],
+    "approval_workflow": true,
+    "versioning": true
+  },
+  "training_harness": {
+    "compute": {
+      "gpu_enabled": true,
+      "instance_types": ["NC24s_v3", "NC6s_v3", "NC4as_T4_v3"],
+      "spot_instances": true,
+      "distributed_training": true
+    },
+    "data": {
+      "storage": "Azure Blob Storage with Delta Lake",
+      "feature_store": "Feast",
+      "data_versioning": "DVC"
+    },
+    "hyperparameter_tuning": {
+      "framework": "Optuna",
+      "parallel_trials": 10,
+      "max_trials": 100
+    }
+  },
+  "inference_harness": {
+    "real_time": {
+      "framework": "Azure Container Instances + Triton",
+      "deployment": "AKS with GPU nodes",
+      "auto_scaling": true,
+      "latency_target": "<50ms P99"
+    },
+    "batch": {
+      "framework": "Azure Batch",
+      "schedule": "cron",
+      "output": "Azure Blob Storage / Synapse"
+    },
+    "streaming": {
+      "framework": "Azure Event Hubs + Flink",
+      "latency_target": "<100ms"
+    }
+  },
+  "ci_cd_harness": {
+    "pipeline_stages": [
+      {
+        "name": "data-validation",
+        "actions": [
+          "Great Expectations",
+          "data quality checks"
+        ]
+      },
+      {
+        "name": "feature-engineering",
+        "actions": [
+          "feature pipeline",
+          "Feast push"
+        ]
+      },
+      {
+        "name": "training",
+        "actions": [
+          "hyperparameter search",
+          "model training",
+          "evaluation"
+        ]
+      },
+      {
+        "name": "model-validation",
+        "actions": [
+          "model tests",
+          "bias detection",
+          "performance benchmark"
+        ]
+      },
+      {
+        "name": "register-model",
+        "actions": [
+          "Azure ML registry",
+          "approval gate"
+        ]
+      },
+      {
+        "name": "deploy-staging",
+        "actions": [
+          "ACI deployment",
+          "integration tests"
+        ]
+      },
+      {
+        "name": "deploy-production",
+        "actions": [
+          "canary deployment",
+          "A/B testing",
+          "monitoring"
+        ]
+      }
+    ],
+    "quality_gates": {
+      "test_coverage": 90,
+      "model_accuracy": "≥target",
+      "bias_score": "<0.1",
+      "inference_latency": "<100ms",
+      "data_quality": "≥95%"
+    }
+  },
+  "testing_harness": {
+    "unit_tests": {
+      "framework": "pytest",
+      "coverage_threshold": 90,
+      "command": "pytest --cov"
+    },
+    "model_tests": {
+      "framework": "pytest-ml",
+      "checks": ["accuracy", "precision", "recall", "f1", "auc"]
+    },
+    "integration_tests": {
+      "framework": "pytest + requests",
+      "environment": "staging"
+    },
+    "security_tests": {
+      "sast": ["semgrep", "bandit"],
+      "adversarial_tests": true
+    }
+  },
+  "observability_harness": {
+    "metrics": {
+      "backend": "Prometheus",
+      "model_metrics": [
+        "prediction_accuracy",
+        "inference_latency",
+        "request_count",
+        "error_rate"
+      ],
+      "data_metrics": [
+        "data_drift",
+        "feature_drift",
+        "data_quality"
+      ]
+    },
+    "logging": {
+      "aggregation": "Azure Monitor",
+      "structured": true,
+      "request_logging": true
+    },
+    "tracing": {
+      "backend": "Azure Application Insights",
+      "instrumentation": "OpenTelemetry",
+      "sampling_rate": 0.1
+    },
+    "drift_detection": {
+      "data_drift": "Evidently AI",
+      "concept_drift": "custom",
+      "alert_threshold": 0.05
+    },
+    "dashboards": [
+      {
+        "name": "MLOps Overview",
+        "metrics": ["training_jobs", "models_deployed", "inference_latency"]
+      },
+      {
+        "name": "Model Performance",
+        "metrics": ["accuracy", "predictions", "drift_score"]
+      },
+      {
+        "name": "GPU Utilization",
+        "metrics": ["gpu_usage", "memory", "training_time"]
+      }
+    ]
+  },
+  "security_harness": {
+    "model_security": {
+      "adversarial_protection": true,
+      "input_validation": true,
+      "output_sanitization": true
+    },
+    "data_security": {
+      "encryption": "AES-256",
+      "access_control": "Azure RBAC",
+      "pii_handling": true
+    },
+    "api_security": {
+      "authentication": "OAuth2 + API Key",
+      "rate_limiting": true,
+      "quota_enforcement": true
+    }
+  },
+  "data_governance": {
+    "catalog": {
+      "tool": "Azure Purview",
+      "metadata": true,
+      "lineage": true
+    },
+    "quality": {
+      "tool": "Great Expectations",
+      "validation_rules": 50,
+      "alert_on_failure": true
+    },
+    "lineage": {
+      "tracking": "OpenLineage",
+      "integration": ["Azure Data Factory", "Synapse", "Kubeflow"]
+    }
+  },
+  "automation_harness": {
+    "scripts": {
+      "train_model": "scripts/train.py",
+      "evaluate_model": "scripts/evaluate.py",
+      "deploy_model": "scripts/deploy.py",
+      "monitor_model": "scripts/monitor.sh"
+    },
+    "scheduled_jobs": [
+      {
+        "name": "retraining",
+        "schedule": "weekly",
+        "trigger": "drift_detection"
+      },
+      {
+        "name": "model_evaluation",
+        "schedule": "daily",
+        "script": "scripts/evaluate.py"
+      }
+    ]
+  },
+  "a_b_testing": {
+    "framework": "Azure ML",
+    "traffic_split": "80-20",
+    "metrics": ["conversion", "latency", "accuracy"],
+    "statistical_significance": 0.95
+  }
+}
