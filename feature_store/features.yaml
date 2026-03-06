@@ -1,0 +1,117 @@
+# Feast Feature Store Configuration
+# For Sentinel AI Engine
+
+project: sentinel_ai_features
+registry: abfss://features@sentinelfeast.dfs.core.windows.net/registry.db
+provider: azure
+online_store:
+  type: redis
+  connection_string: ${REDIS_CONNECTION_STRING}
+
+offline_store:
+  type: snowflake
+  account: ${SNOWFLAKE_ACCOUNT}
+  user: ${SNOWFLAKE_USER}
+  password: ${SNOWFLAKE_PASSWORD}
+  role: ${SNOWFLAKE_ROLE}
+  database: SENTINEL_FEATURES
+  warehouse: FEAST_WH
+  schema: PUBLIC
+
+entity_key_serialization_version: 2
+
+# Feature definitions
+features:
+  # Customer features for fraud detection
+  - name: customer_transactions
+    entities:
+      - name: customer_id
+        value_type: STRING
+    features:
+      - name: transaction_count_1h
+        value_type: INT64
+        description: Number of transactions in the last hour
+      - name: transaction_count_24h
+        value_type: INT64
+        description: Number of transactions in the last 24 hours
+      - name: total_amount_24h
+        value_type: FLOAT
+        description: Total transaction amount in the last 24 hours
+      - name: avg_transaction_amount
+        value_type: FLOAT
+        description: Average transaction amount
+      - name: max_transaction_amount
+        value_type: FLOAT
+        description: Maximum transaction amount
+      - name: transaction_velocity
+        value_type: FLOAT
+        description: Transaction velocity score
+
+  # IoT sensor features for anomaly detection
+  - name: sensor_readings
+    entities:
+      - name: sensor_id
+        value_type: STRING
+    features:
+      - name: temperature_avg_1m
+        value_type: FLOAT
+        description: Average temperature over 1 minute
+      - name: temperature_std_1m
+        value_type: FLOAT
+        description: Temperature standard deviation
+      - name: humidity_avg_1m
+        value_type: FLOAT
+        description: Average humidity over 1 minute
+      - name: reading_count_1m
+        value_type: INT64
+        description: Number of readings in 1 minute
+      - name: anomaly_score
+        value_type: FLOAT
+        description: Anomaly detection score
+
+  # Agricultural features for prediction
+  - name: field_conditions
+    entities:
+      - name: field_id
+        value_type: STRING
+    features:
+      - name: soil_moisture_avg
+        value_type: FLOAT
+        description: Average soil moisture
+      - name: temperature_avg
+        value_type: FLOAT
+        description: Average temperature
+      - name: humidity_avg
+        value_type: FLOAT
+        description: Average humidity
+      - name: rainfall_last_24h
+        value_type: FLOAT
+        description: Rainfall in last 24 hours
+      - name: sunlight_hours
+        value_type: FLOAT
+        description: Hours of sunlight
+      - name: ndvi_value
+        value_type: FLOAT
+        description: NDVI vegetation index
+
+  # User behavior features
+  - name: user_behavior
+    entities:
+      - name: user_id
+        value_type: STRING
+    features:
+      - name: session_count_24h
+        value_type: INT64
+        description: Sessions in last 24 hours
+      - name: page_views_24h
+        value_type: INT64
+        description: Page views in last 24 hours
+      - name: avg_session_duration
+        value_type: FLOAT
+        description: Average session duration in minutes
+      - name: feature_usage_score
+        value_type: FLOAT
+        description: Feature usage score
+      - name: last_active_hours_ago
+        value_type: INT64
+        description: Hours since last activity
